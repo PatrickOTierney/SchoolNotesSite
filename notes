@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .image-container {
+                align-content: center;
+                display: flex;
+                flex-direction: column;
+                align-items:center; 
+                justify-content: center;
+            }
+
+            .image {
+                display:flex;
+                
+            }
+            .subject-container {
+                align-content: center;
+                display: flex;
+                flex-direction: column;
+                align-items:center; 
+                justify-content: center;
+                height:100vh;
+            }
+
+            .subject{
+                display: block;
+                width: 130px;
+                height: 60px;
+                margin-bottom: 10px;
+                font-size: large;
+                font-style: italic;
+            }
+            
+            .Maths {
+                background-color: rgba(255, 0, 0, 0.679);
+            }
+            .AppliedMaths {
+                background-color: orange;
+            }
+            .English {
+                background-color: yellow;
+            } 
+            .Irish {
+                background-color: green;
+            }
+            .French {
+                background-color: lightblue;
+            }
+            .Physics {
+                background-color: rgba(158, 0, 0, 0.792);
+            }
+            .Chemistry {
+                background-color: rgb(87, 76, 241);
+            }
+            .Biology {
+                background-color: lightgreen;
+            }
+            .back {
+                display:none;
+                width: 50px;
+                height: 50px;
+                z-index: 1;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <button class = "back" onclick = ShowSubjectDiv()>&larr;</button>
+        <div class = "subject-container">
+            
+            <button class = "subject Maths">Maths</button>
+            <button class = "subject AppliedMaths">Applied Maths</button>
+            <button class = "subject English" >English</button>
+            <button class = "subject Irish">Irish</button>
+            <button class = "subject French">French</button>
+            <button class = "subject Physics">Physics</button>
+            <button class = "subject Chemistry">Chemistry</button>
+            <button class = "subject Biology">Biology</button>
+        </div>
+
+        
+        <div class = "image-container">
+            <img class = "image" src = "">
+        </div>
+        
+        <script>
+            //var div = document.getElementsByClassName("button-container");
+            document.querySelector('.subject-container').addEventListener('click', function (event) {
+                if (event.target.classList.contains('subject')) {
+                    //showAlert(event.target.textContent);
+                    HideSubjectDiv();
+                }
+            });
+            var div = document.querySelector('.subject-container');
+            var back = document.querySelector('.back');
+            var image = document.querySelector('.image');
+
+            function showAlert(subject) {
+                alert("You clicked the " + subject + " button!");
+            }
+
+            function HideSubjectDiv() {
+                
+                div.style.display = "none";
+                
+                back.style.display = "inline";
+                
+                image.style.display = "inline";
+                image.src = 'images/potato.png'
+            }
+            function ShowSubjectDiv() {
+                div.style.display = "flex";
+                
+                back.style.display = "none";
+                
+                image.style.display = "none";
+            }
+            
+            
+        </script>
+    </body>
+    
+</html>
