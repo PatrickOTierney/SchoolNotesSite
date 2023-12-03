@@ -1,191 +1,238 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Serious Business</title>
-    <style>
-        body {
-            background-color: rgb(220, 220, 220);;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            font-family: cursive;
-        }
-        /*#square {
-            width: 10px;
-            height: 10px;
-            background-color: blue;
-            display: block;
-        }*/
+    <head>
+        <style>
 
-        /*.graysquare {
-            width: 10px; 
-            height: 10px; 
-            background-color: gray; 
-            display: inline-block;
-        }
-        .redsquare {
-            width: 10px; 
-            height: 10px; 
-            background-color: red; 
-            display: inline-block;
-        }*/
-
-        .square {
-            width: 10px;
-            height: 10px;
-            background-color: gray;
-            display: inline-block;
-        }
-
-        
-       
-        
-        #ClickMe {
-            background-color: rgb(246, 89, 89);
-            width: 150px;
-            height: 70px;
-            font-size: 25px;
-            transition: transform 0.8s ease-in-out, opacity 0.7s ease-out;
-            cursor:pointer;
-            border-radius: 20px;
-            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        }
-        #ClickMe:hover {
-            transform: scale(1.05);
-        }
-
-        #ServerMessage {
-            overflow: hidden;
-            display: block;
-            transform: translateX(-100vw);
-            left:50%;
-            position:relative;
-            transition: transform 1.6s ease-in-out;
-            white-space: pre-line;
-            background-color: black;
-            color: white;
-            margin: 0px;
-            padding: 5px;
-            border-radius: 5px;
-            font-family: cursive;
-        }
-        #ServerMessageContainer {
-            position: relative; /* Add this line */
-        }
-        #HoverDisplay {
-            bottom: 0; /* Position it at the bottom of the parent container */
-            
-        }
-
-        
-    </style>
-</head>
-<body>
-    <h1 id = "Title">Serious Business</h1>
-    <!--<div id = "square"></div>-->
-    <br>    
-    <button id = "ClickMe"> Click me!</button>
-    <div id="ServerMessageContainer">
-        <p id="ServerMessage">An Internal Error Occurred</p>
-        <p id = "HoverDisplay"></p>
-    </div>
-
-    <script>
-        const button = document.getElementById("ClickMe");
-        const ServerMessage = document.getElementById("ServerMessage");
-        const webSocket = new WebSocket('ws://localhost:8765');
-        var MessageArray = [];
-        var ChunkSize;
-        webSocket.onmessage = (event) => {
-            var message = event.data;
-            
-           // ServerMessage.innerHTML = message;
-            console.log(message);
-            var MessageLine = message.split("\n");
-            ChunkSize = MessageLine[0];
-            var RedSquareValues = [];
-            var CutEndOff;
-            for (let i = 1; i < MessageLine.length-1; i++) {
-              
-                MessageArray.push(MessageLine[i].split('|').slice(0, -1));
+            body {
+                background-color: gray;
             }
-            console.log(MessageArray);
-            ServerMessage.innerHTML = "";
-            for (let i = 0; i < MessageArray.length; i++) {
-                for (let j = 0; j < MessageArray[i].length; j++) {
-                    if (MessageArray[i][j] == "0") {
-                        ServerMessage.innerHTML += '<div class = "square"></div>';
-                    } else {
-                        ServerMessage.innerHTML += '<div class = "square", style = "background-color: red;"></div>';
-                        //RedSquareValues += MessageArray[i][j];
-                    }
-                    ServerMessage.innerHTML += ' ';
+            .image-container {
+                align-content: center;
+                display: flex;
+                flex-direction: column;
+                align-items:center; 
+                justify-content: center;
+                text-align: center;
+            }
+
+            .image {
+                display:none;
+                max-width: auto;
+                max-height: 100vh;
+            }
+            .ImageText {
+                display:flex;
+            }
+            .subject-container {
+                align-content: center;
+                display: flex;
+                flex-direction: column;
+                align-items:center; 
+                justify-content: center;
+                height:100vh;
+                padding-top:0;
+            }
+
+            .subject{
+                display: block;
+                width: 150px;
+                height: 50px;
+                margin-bottom: 10px;
+                font-size: large;
+                /* font-style:oblique; */
+                border: 5px outset #000000;
+                cursor: pointer;
+            }
+            
+            .Maths {
+                background-color: rgba(255, 0, 0, 0.679);
+            }
+            .AppliedMaths {
+                background-color: orange;
+            }
+            .English {
+                background-color: yellow;
+            } 
+            .Irish {
+                background-color: green;
+            }
+            .French {
+                background-color: lightblue;
+            }
+            .Physics {
+                background-color: rgba(158, 0, 0, 0.792);
+            }
+            .Chemistry {
+                background-color: rgb(87, 76, 241);
+            }
+            .Biology {
+                background-color: lightgreen;
+            }
+            .back {
+                display:none;
+                width: 50px;
+                height: 30px;
+                z-index: 1;
+            }
+            .forward {
+                display:none;
+                position: absolute;
+                top: 50%;
+                right: 100px; /* Adjust the distance from the right */
+                transform: translateY(-50%);
+                font-size: 24px; /* Adjust the font size */
+                z-index: 1;
+            }
+            .backward {
+                display:none;
+                position: absolute;
+                top: 50%;
+                left: 100px; /* Adjust the distance from the right */
+                transform: translateY(-50%);
+                font-size: 24px; /* Adjust the font size */
+                z-index: 1;
+            }
+            .button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            .Heading {
+                font-weight: bold;
+                font-size: 100px;
+                padding:0;
+                margin:0;
+            }
+
+
+        </style>
+    </head>
+    <title>School Notes</title>
+    <body>
+        <button class = "back" onclick = ShowSubjectDiv()>&larr;</button>
+        <div class = "subject-container">
+            <h1 class = "Heading">School Notes</h1>
+            <button class = "subject Maths">Maths</button>
+            <button class = "subject AppliedMaths">AppliedMaths</button>
+            <button class = "subject English" >English</button>
+            <button class = "subject Irish">Irish</button>
+            <button class = "subject French">French</button>
+            <button class = "subject Physics">Physics</button>
+            <button class = "subject Chemistry">Chemistry</button>
+            <button class = "subject Biology">Biology</button>
+        </div>
+        
+
+        
+        <div class = "image-container">
+            <button class = "backward" onclick = Backward()>&larr;</button>
+            <h2 class = "ImageText"></h2>
+            <img class = "image" src = "" loading = "lazy" alt = "Image">
+            <button class = "forward" onclick = Forward()>&rarr;</button>
+        </div>
+        
+        <script>
+            //var div = document.getElementsByClassName("button-container");
+            document.querySelector('.subject-container').addEventListener('click', function (event) {
+                if (event.target.classList.contains('subject')) {
+                    //showAlert(event.target.textContent);
+                    currentsubject = event.target.textContent;
+                    HideSubjectDiv();
                 }
-                ServerMessage.innerHTML += '<br>';
+            });
+            var div = document.querySelector('.subject-container');
+            var back = document.querySelector('.back');
+            var image = document.querySelector('.image');
+            var forwardbutton = document.querySelector('.forward');
+            var backwardbutton = document.querySelector('.backward');
+            var index = 1;
+            var currentsubject = '';
+            var imagefailtext = document.querySelector('.ImageText')
+
+            /*function showAlert(subject) {
+                alert("You clicked the " + subject + " button!");
+            }*/
+
+            function HideSubjectDiv() {
                 
+                div.style.display = "none";
+                
+                back.style.display = "inline";
+                forwardbutton.style.display = "inline";
+                backwardbutton.style.display = "inline";
+                
+                image.style.display = "inline";
+                //image.src = 'images/potato.png';
+                console.log(image.src);
+
+                image.src = 'images/' +currentsubject+'/'+index+'.webp';
+                image.addEventListener('error', handleImageError);
+                imagefailtext.innerHTML = '';
             }
-            const redsquares = document.querySelectorAll('.square');
-        redsquares.forEach(square => {
-            square.addEventListener('mouseenter', () => {
-                handleRedSquareHover(square);
+            function Forward() {
+                
+                index++;
+                image.src = 'images/' +currentsubject+'/'+index+'.webp';
+                imagefailtext.innerHTML = '';
+                image.addEventListener('error', handleImageError);
+                var nextimage = 'images/' +currentsubject+'/'+(index+1)+'.webp';
+                checkLocalFileExists(nextimage)
+                .then(exists => {
+                if (exists) {
+                    console.log('Local file exists!');
+                } else {
+                    console.log('Local file does not exist.'+nextimage);
+                    forwardbutton.style.display = 'none';
+                }
             });
-            square.addEventListener('mouseleave', () => {
-                handleRedSquareMouseExit(square);
-            });
-        });
-            
-        }
-        const HoverDisplayElement = document.getElementById("HoverDisplay");
-        function handleRedSquareHover(element) {
-            //console.log(window.getComputedStyle(element).getPropertyValue("background-color"));
-            if (window.getComputedStyle(element).getPropertyValue("background-color") === "rgb(255, 0, 0)") {
-            // Get the index of the red square in the MessageArray
-            const redsquares = document.querySelectorAll('.square');
-            const index = Array.from(redsquares).indexOf(element);
 
-            // Calculate the row and column index
-            const numRows = MessageArray.length;
-            const numCols = MessageArray[0].length;
-            const rowIndex = Math.floor(index / numCols);
-            const colIndex = index % numCols;
-            const userName = MessageArray[rowIndex][colIndex];
-            const regex = /\[(.*?)\]/g; 
-            //console.log(userName);
-            //console.log(userName.match(regex));
-            const usernamesplit = userName.match(regex);
-            //usernamesplit.split(",").slice(1)
-            //HoverDisplayElement.innerHTML = `X: ${rowIndex*ChunkSize}, Z: ${colIndex*ChunkSize} <br>Username:<br> ${userName.slice(0, Math.floor(HoverDisplayElement.offsetWidth / 8))}`;
-            console.log(usernamesplit);
-            HoverDisplayElement.innerHTML = `X: ${String(usernamesplit).split(",")[0].slice(1)}, Z: ${String(usernamesplit).split(",")[1].slice(0, -1)} <br>Username:<br> ${userName.split("[")[0].slice(0, Math.floor(HoverDisplayElement.offsetWidth / 8))}`;
-            //console.log(userName.split("[")[0].slice(0, Math.floor(HoverDisplayElement.offsetWidth / 8)));
+
+
             }
-        }
-        function handleRedSquareMouseExit(element) {
-            HoverDisplayElement.innerHTML = "";
-        }
-        
-        
-        button.addEventListener('click', function() {
-            button.style.transform = "translateX(500px)";
-            button.style.opacity = "0"; 
-            ServerMessage.style.transform = "translateX(-50%)";
+
+            function Backward() {   
+                if(index > 1) {
+                    forwardbutton.style.display = 'inline';
+                    index--;
+                    image.src = 'images/' +currentsubject+'/'+index+'.webp';
+                    imagefailtext.innerHTML = '';
+                    image.addEventListener('error', handleImageError);
+                }
+            }
+            function ShowSubjectDiv() {
+                div.style.display = "flex";
+                
+                back.style.display = "none";
+                forwardbutton.style.display = "none";
+                backwardbutton.style.display = "none";
+                
+                image.style.display = "none";
+                imagefailtext.innerHTML = '';
+            }
+            function handleImageError() {
+                console.log('Image failed to load. '+image.src);
+                imagefailtext.innerHTML = 'Image failed to load at '+image.src;
+                forwardbutton.style.display = "none";
+                
+                // You can add additional error handling logic here
+            }
+            function checkLocalFileExists(filePath) {
+                return fetch(filePath, { method: 'HEAD' })
+                    .then(response => {
+            // Check if the status code is in the range of 200 to 299
+                        if (response.ok) {
+                            return true; // File exists
+                        } else {
+                            return false; // File does not exist
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking local file existence:', error);
+                        return false; // Error occurred, assume file does not exist
+                    });
+            }
             
-        });
-
-        const testsquare = document.getElementById("square");
-
-
-        /*testsquare.addEventListener('mouseover', function () {
-            console.log("");
-            testsquare.style.backgroundColor = 'green';
-        });*/
-
-        
-
-        // Add event listeners to redsquare elements
-        
+            
+        </script>
+    </body>
     
-    </script>
-</body>
 </html>
