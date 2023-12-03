@@ -2,6 +2,7 @@
 <html>
     <head>
         <style>
+
             body {
                 background-color: gray;
             }
@@ -15,8 +16,9 @@
             }
 
             .image {
-                display:flex;
-                
+                display:none;
+                max-width: auto;
+                max-height: 100vh;
             }
             .ImageText {
                 display:flex;
@@ -28,15 +30,18 @@
                 align-items:center; 
                 justify-content: center;
                 height:100vh;
+                padding-top:0;
             }
 
             .subject{
                 display: block;
                 width: 150px;
-                height: 40px;
+                height: 50px;
                 margin-bottom: 10px;
                 font-size: large;
                 /* font-style:oblique; */
+                border: 5px outset #000000;
+                cursor: pointer;
             }
             
             .Maths {
@@ -66,7 +71,7 @@
             .back {
                 display:none;
                 width: 50px;
-                height: 50px;
+                height: 30px;
                 z-index: 1;
             }
             .forward {
@@ -87,21 +92,25 @@
                 font-size: 24px; /* Adjust the font size */
                 z-index: 1;
             }
-                .button {
+            .button {
                 padding: 10px 20px;
                 font-size: 16px;
+            }
+            .Heading {
+                font-weight: bold;
+                font-size: 100px;
+                padding:0;
+                margin:0;
             }
 
 
         </style>
     </head>
+    <title>School Notes</title>
     <body>
-
-        <title>School Notes</title>
-
         <button class = "back" onclick = ShowSubjectDiv()>&larr;</button>
         <div class = "subject-container">
-            
+            <h1 class = "Heading">School Notes</h1>
             <button class = "subject Maths">Maths</button>
             <button class = "subject AppliedMaths">Applied Maths</button>
             <button class = "subject English" >English</button>
@@ -117,7 +126,7 @@
         <div class = "image-container">
             <button class = "backward" onclick = Backward()>&larr;</button>
             <h2 class = "ImageText"></h2>
-            <img class = "image" src = "">
+            <img class = "image" src = "" loading = "lazy" alt = "Image">
             <button class = "forward" onclick = Forward()>&rarr;</button>
         </div>
         
@@ -149,30 +158,33 @@
                 
                 back.style.display = "inline";
                 forwardbutton.style.display = "inline";
-                backwardbutton.style.display = "inline";
                 
                 image.style.display = "inline";
                 //image.src = 'images/potato.png';
                 console.log(image.src);
 
-                image.src = 'images/' +currentsubject+'/'+index+'.png';
+                image.src = 'images/' +currentsubject+'/'+index+'.webp';
                 image.addEventListener('error', handleImageError);
                 imagefailtext.innerHTML = '';
+                
             }
             function Forward() {
                 index++;
-                image.src = 'images/' +currentsubject+'/'+index+'.png';
+                image.src = 'images/' +currentsubject+'/'+index+'.webp';
                 imagefailtext.innerHTML = '';
                 image.addEventListener('error', handleImageError);
+                backwardbutton.style.display = "inline";
             }
 
             function Backward() {
-                if(index > 1) {
-                    index--;
-                    image.src = 'images/' +currentsubject+'/'+index+'.png';
-                    imagefailtext.innerHTML = '';
-                    image.addEventListener('error', handleImageError);
+                index--;
+                image.src = 'images/' +currentsubject+'/'+index+'.webp';
+                imagefailtext.innerHTML = '';
+                image.addEventListener('error', handleImageError);
+                if(index < 2){
+                    backwardbutton.style.display = "none";
                 }
+
             }
             function ShowSubjectDiv() {
                 div.style.display = "flex";
@@ -183,6 +195,7 @@
                 
                 image.style.display = "none";
                 imagefailtext.innerHTML = '';
+                index = 1;
             }
             function handleImageError() {
                 console.log('Image failed to load. '+image.src);
