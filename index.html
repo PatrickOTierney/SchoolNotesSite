@@ -153,12 +153,12 @@
             }*/
 
             function HideSubjectDiv() {
-                
+                index = 1;
                 div.style.display = "none";
                 
                 back.style.display = "inline";
                 forwardbutton.style.display = "inline";
-                backwardbutton.style.display = "inline";
+                //backwardbutton.style.display = "inline";
                 
                 image.style.display = "inline";
                 //image.src = 'images/potato.png';
@@ -169,7 +169,7 @@
                 imagefailtext.innerHTML = '';
             }
             function Forward() {
-                
+                backwardbutton.style.display = "inline";
                 index++;
                 image.src = 'images/' +currentsubject+'/'+index+'.webp';
                 imagefailtext.innerHTML = '';
@@ -190,6 +190,9 @@
             }
 
             function Backward() {   
+                if (index == 2) {
+                    backwardbutton.style.display = 'none';
+                }
                 if(index > 1) {
                     forwardbutton.style.display = 'inline';
                     index--;
