@@ -13,12 +13,22 @@
                 align-items:center; 
                 justify-content: center;
                 text-align: center;
+                margin-top: -90px;
+                overflow: hidden;
             }
 
             .image {
                 display:none;
                 max-width: auto;
                 max-height: 100vh;
+                overflow: hidden;
+            }
+            .version{
+                display:inline;
+                position: absolute;
+                right: 50px;
+                top: 0%;
+            
             }
             .ImageText {
                 display:flex;
@@ -30,10 +40,11 @@
                 align-items:center; 
                 justify-content: center;
                 height:100vh;
-                padding-top:0;
+                margin-top:-20px;
             }
 
             .subject{
+                opacity:0;
                 display: block;
                 width: 150px;
                 height: 50px;
@@ -45,27 +56,35 @@
             }
             
             .Maths {
+                animation: slideInLeft .7s ease-out forwards 0.1s;
                 background-color: rgba(255, 0, 0, 0.679);
             }
             .AppliedMaths {
+                animation: slideInRight .7s ease-out forwards 0.2s;
                 background-color: orange;
             }
             .English {
+                animation: slideInLeft 0.7s ease-out forwards 0.3s;
                 background-color: yellow;
             } 
             .Irish {
+                animation: slideInRight 0.7s ease-out forwards 0.4s;
                 background-color: green;
             }
             .French {
+                animation: slideInLeft 0.7s ease-out forwards 0.5s;
                 background-color: lightblue;
             }
             .Physics {
+                animation: slideInRight 0.7s ease-out forwards 0.6s;
                 background-color: rgba(158, 0, 0, 0.792);
             }
             .Chemistry {
+                animation: slideInLeft 0.7s ease-out forwards 0.7s;
                 background-color: rgb(87, 76, 241);
             }
             .Biology {
+                animation: slideInRight 0.7s ease-out forwards 0.8s;
                 background-color: lightgreen;
             }
             .back {
@@ -97,14 +116,66 @@
                 font-size: 16px;
             }
             .Heading {
+                opacity: 0;
+                animation: slideInTop 1.5s ease-out forwards 0.5s;
                 font-weight: bold;
                 font-size: 100px;
                 padding:0;
                 margin:0;
             }
+            
+            @keyframes slideInTop {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            60% {
+                transform: translateY(-5vh);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+            @keyframes slideInLeft {
+             0% {
+                transform: translateX(-100vh);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideInRight {
+             0% {
+                transform: translateX(100vh);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
 
 
         </style>
+        <script>
+            function getRandomRGB() {
+                var red = Math.floor(Math.random() * 256);
+                var green = Math.floor(Math.random() * 256);
+                var blue = Math.floor(Math.random() * 256);
+                return `rgb(${red}, ${green}, ${blue})`;
+            }
+    
+            function changeBackgroundColor() {
+                var randomColor = getRandomRGB();
+                document.body.style.backgroundColor = randomColor;
+                console.log(randomColor)
+            }
+            window.onload = changeBackgroundColor;
+        </script>
     </head>
     <title>School Notes</title>
     <body>
@@ -119,6 +190,7 @@
             <button class = "subject Physics">Physics</button>
             <button class = "subject Chemistry">Chemistry</button>
             <button class = "subject Biology">Biology</button>
+            <h3 class = "version">Version 1.0.0 (11-12-23)</h3>
         </div>
         
 
