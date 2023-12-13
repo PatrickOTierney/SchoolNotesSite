@@ -50,34 +50,33 @@
                 height: 50px;
                 margin-bottom: 10px;
                 font-size: large;
-                /* font-style:oblique; */
                 border: 5px outset #000000;
-                cursor: pointer;
+                cursor:pointer;
             }
             
             .Maths {
                 animation: slideInLeft .7s ease-out forwards 0.1s;
-                background-color: rgba(255, 0, 0, 0.679);
+                background-color: rgba(255, 0, 0);
             }
             .AppliedMaths {
                 animation: slideInRight .7s ease-out forwards 0.2s;
-                background-color: orange;
+                background-color: rgb(255, 166, 0);
             }
             .English {
                 animation: slideInLeft 0.7s ease-out forwards 0.3s;
-                background-color: yellow;
+                background-color: rgb(255, 255, 31);
             } 
             .Irish {
                 animation: slideInRight 0.7s ease-out forwards 0.4s;
-                background-color: green;
+                background-color: rgb(0, 176, 0);
             }
             .French {
                 animation: slideInLeft 0.7s ease-out forwards 0.5s;
-                background-color: lightblue;
+                background-color: rgb(23, 249, 246);
             }
             .Physics {
                 animation: slideInRight 0.7s ease-out forwards 0.6s;
-                background-color: rgba(158, 0, 0, 0.792);
+                background-color: rgb(237, 61, 120);
             }
             .Chemistry {
                 animation: slideInLeft 0.7s ease-out forwards 0.7s;
@@ -85,7 +84,7 @@
             }
             .Biology {
                 animation: slideInRight 0.7s ease-out forwards 0.8s;
-                background-color: lightgreen;
+                background-color: rgb(121, 255, 37);
             }
             .back {
                 display:none;
@@ -97,18 +96,18 @@
                 display:none;
                 position: absolute;
                 top: 50%;
-                right: 100px; /* Adjust the distance from the right */
+                right: 100px; 
                 transform: translateY(-50%);
-                font-size: 24px; /* Adjust the font size */
+                font-size: 24px; 
                 z-index: 1;
             }
             .backward {
                 display:none;
                 position: absolute;
                 top: 50%;
-                left: 100px; /* Adjust the distance from the right */
+                left: 100px;
                 transform: translateY(-50%);
-                font-size: 24px; /* Adjust the font size */
+                font-size: 24px;
                 z-index: 1;
             }
             .button {
@@ -117,20 +116,20 @@
             }
             .Heading {
                 opacity: 0;
-                animation: slideInTop 1.5s ease-out forwards 0.5s;
+                animation: slideInTop 1.5s ease-in-out forwards 0.5s;
                 font-weight: bold;
-                font-size: 100px;
+                font-size: 120px;
                 padding:0;
-                margin:0;
+                margin-top: -100px;
             }
-            
+            /* animations for sliding in from left, right and top of screen */
             @keyframes slideInTop {
             0% {
                 transform: translateY(100vh);
                 opacity: 0;
             }
             60% {
-                transform: translateY(-5vh);
+                transform: translateY(-7vh);
                 opacity: 1;
             }
             100% {
@@ -162,6 +161,7 @@
 
         </style>
         <script>
+            //generate random RGB value
             function getRandomRGB() {
                 var red = Math.floor(Math.random() * 256);
                 var green = Math.floor(Math.random() * 256);
@@ -179,7 +179,9 @@
     </head>
     <title>School Notes</title>
     <body>
+        
         <button class = "back" onclick = ShowSubjectDiv()>&larr;</button>
+        <!--What is seen when website first loads-->
         <div class = "subject-container">
             <h1 class = "Heading">School Notes</h1>
             <button class = "subject Maths">Maths</button>
@@ -190,11 +192,11 @@
             <button class = "subject Physics">Physics</button>
             <button class = "subject Chemistry">Chemistry</button>
             <button class = "subject Biology">Biology</button>
-            <h3 class = "version">Version 1.0.0 (11-12-23)</h3>
+            <h3 class = "version">Version 1.0.1 (13-12-23)</h3>
         </div>
         
 
-        
+        <!--Image container that is filled with image dynamically by javascript after a subject is chosen-->
         <div class = "image-container">
             <button class = "backward" onclick = Backward()>&larr;</button>
             <h2 class = "ImageText"></h2>
@@ -203,10 +205,8 @@
         </div>
         
         <script>
-            //var div = document.getElementsByClassName("button-container");
             document.querySelector('.subject-container').addEventListener('click', function (event) {
                 if (event.target.classList.contains('subject')) {
-                    //showAlert(event.target.textContent);
                     currentsubject = event.target.textContent;
                     HideSubjectDiv();
                 }
@@ -220,26 +220,22 @@
             var currentsubject = '';
             var imagefailtext = document.querySelector('.ImageText')
 
-            /*function showAlert(subject) {
-                alert("You clicked the " + subject + " button!");
-            }*/
-
+            //hide first page, update to image page containing image, navigation buttons and a back arrow to go back to main page
             function HideSubjectDiv() {
                 index = 1;
                 div.style.display = "none";
                 
                 back.style.display = "inline";
                 forwardbutton.style.display = "inline";
-                //backwardbutton.style.display = "inline";
                 
                 image.style.display = "inline";
-                //image.src = 'images/potato.png';
                 console.log(image.src);
 
                 image.src = 'images/' +currentsubject+'/'+index+'.webp';
                 image.addEventListener('error', handleImageError);
                 imagefailtext.innerHTML = '';
             }
+            //when the navigate right button is pressed, has logic for drawing the arrow depending on if there is a next image or not
             function Forward() {
                 backwardbutton.style.display = "inline";
                 index++;
@@ -261,6 +257,7 @@
 
             }
 
+            //When the navigate left button is pressed, with a check for if its at index 2 in order to not draw the button when on the first image
             function Backward() {   
                 if (index == 2) {
                     backwardbutton.style.display = 'none';
@@ -273,6 +270,7 @@
                     image.addEventListener('error', handleImageError);
                 }
             }
+            //Redisplay initial "front page"
             function ShowSubjectDiv() {
                 div.style.display = "flex";
                 
@@ -283,26 +281,29 @@
                 image.style.display = "none";
                 imagefailtext.innerHTML = '';
             }
+            //Image failed load error
             function handleImageError() {
                 console.log('Image failed to load. '+image.src);
                 imagefailtext.innerHTML = 'Image failed to load at '+image.src;
                 forwardbutton.style.display = "none";
                 
-                // You can add additional error handling logic here
+            
             }
+
+            //fetch request to check the headers of the next image from given file path to check whether to draw the next arrow or not
             function checkLocalFileExists(filePath) {
                 return fetch(filePath, { method: 'HEAD' })
                     .then(response => {
-            // Check if the status code is in the range of 200 to 299
+            
                         if (response.ok) {
-                            return true; // File exists
+                            return true;
                         } else {
-                            return false; // File does not exist
+                            return false; 
                         }
                     })
                     .catch(error => {
                         console.error('Error checking local file existence:', error);
-                        return false; // Error occurred, assume file does not exist
+                        return false;
                     });
             }
             
