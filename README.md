@@ -1,1 +1,1 @@
-"Why wont this work pain pain pain pain" 
+"Github pages site in order to view school notes online" 
