@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <style>
+
+            body {
+                margin: 0;
+                padding: 0;
+                /*min-height: 100vh;*/
+                background: radial-gradient(circle, #8b6e6e 0%, #ffffff 80%, #aabbcc 100%) center/contain;
+                height: 100vh;
+                
+            }
+
+            .image-container {
+                align-content: center;
+                display: flex;
+                flex-direction: column;
+                align-items:center; 
+                justify-content: center;
+                text-align: center;
+                margin-top: -90px;
+                overflow: hidden;
+                justify-content: center;
+                z-index: 1;
+            }
+            .menu-container{
+                align-content: center;
+                margin-top: 10px;
+            }
+
+            .image {
+                display:none;
+                width: 100vw;
+                z-index: -1;
+            }
+            .version{
+                font-size: 3vh;
+                display:inline;
+                position: absolute;
+                right: 50px;
+                top: 90%;
+            }
+            .ImageText {
+                display:flex;
+            }
+            .subject-container {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                align-content: center;
+                
+                grid-template-columns: repeat(4, minmax(10px, 2fr));
+                flex-direction: column;
+                align-items:center; 
+                justify-content: center;
+                /*margin-top:-20px;*/
+                
+
+            }
+
+            .subject{
+                opacity:0;
+                border-radius: 25px;
+                padding: 10px;
+                display: block;
+                width: 20vw;
+                height: 10vh;
+                margin: 20px;
+                font-size: 5vh;
+                border: 5px outset #000000;
+                cursor:pointer;
+            }
+            /* Common styles for both desktop and mobile */
+            body {
+                font-family: 'Arial', sans-serif;
+                color: #333;
+            }
+
+            /* Desktop styles (min-width: 768px)
+            @media only screen and (min-width: 768px) {
+                .subject-container {
+                    display: grid;
+                }
+            }
+
+            /* Mobile styles (max-width: 767px) 
+            @media only screen and (max-width: 767px) {
+                .subject-container {
+                    display: flex;
+                }
+
+            } */
+            .Maths {
+                animation: slideInLeft 1.1s ease-out forwards 0.65s;    
+                background-color: rgba(255, 0, 0);
+            }
+            .AppliedMaths {
+                animation: slideInLeft 1.1s ease-out forwards 0.45s;
+                background-color: rgb(255, 166, 0);
+            }
+            .English {
+                animation: slideInLeft 1.1s ease-out forwards 0.25s;
+                background-color: rgb(255, 255, 31);
+            } 
+            .Irish {
+                animation: slideInLeft 1.1s ease-out forwards 0.05s;
+                background-color: rgb(0, 176, 0);
+            }
+            .French {
+                animation: slideInLeft 1.1s ease-out forwards 0.8s;
+                background-color: rgb(23, 249, 246);
+            }
+            .Physics {
+                animation: slideInLeft 1.1s ease-out forwards 0.6s;
+                background-color: rgb(237, 61, 120);
+            }
+            .Chemistry {
+                animation: slideInLeft 1.1s ease-out forwards 0.4s;
+                background-color: rgb(87, 76, 241);
+            }
+            .Biology {
+                animation: slideInLeft 1.1s ease-out forwards 0.2s;
+                background-color: rgb(121, 255, 37);
+            }
+            .back {
+                background-color:peru;
+                display:none;
+                width: 50px;
+                margin:5px;
+                height: 30px;
+                z-index: 2;
+            }
+            .forward {
+                background-color: rgba(0, 255, 0, 0.766);
+                border-radius: 15px;
+                display:none;
+                position: absolute;
+                top: 50%;
+                right: 2.5%; 
+                transform: translateY(-50%);
+                font-size: 24px; 
+                z-index: 3;
+            }
+            .backward {
+                background-color: rgba(0, 255, 0, 0.766);
+                border-radius: 15px;
+                display:none;
+                position: absolute;
+                top: 50%;
+                left: 2.5%;
+                transform: translateY(-50%);
+                font-size: 24px;
+                z-index: 1;
+            }
+            .button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            .Heading {
+                text-align: center;
+                opacity: 0;
+                animation: slideInTop 1.3s ease-in-out forwards 0.6s;
+                font-family: 'Lobster', cursive;
+                font-weight: bold;
+                font-size: 5vw;
+                padding:0;
+                margin-top: 0px;
+                
+                
+            }
+            /* animations for sliding in from left, right and top of screen */
+            @keyframes slideInTop {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            70% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(20px);
+                opacity: 1;
+            }
+        }
+        @keyframes slideInBottom {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+            70% {
+                transform: translateY(3vh);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+            @keyframes slideInLeft {
+             0% {
+                transform: translateX(-100vw);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideInRight {
+             0% {
+                transform: translateX(100vw);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+
+        </style>
+        <script>
+            
+            //generate random RGB value
+            function getRandomRGB() {
+                var red = Math.floor(Math.random() * 256);
+                var green = Math.floor(Math.random() * 256);
+                var blue = Math.floor(Math.random() * 256);
+                return `rgb(${red}, ${green}, ${blue})`;
+            }
+    
+            function changeBackgroundColor() {
+                var randomColor = getRandomRGB();
+                document.body.style.backgroundColor = randomColor;
+                console.log(randomColor)
+            }
+            //window.onload = changeBackgroundColor;
+        </script>
+        <title>School Notes</title>
+    </head>
+    
+    <body>
+        
+        <button class = "back" onclick = ShowSubjectDiv()>&larr;</button>
+        <div class = "menu-container">
+            <h1 class = "Heading">School Notes</h1>
+        <!--What is seen when website first loads-->
+            <div class = "subject-container">
+                <!--<h1 class = "Heading">School Notes</h1>-->
+                <button class = "subject Maths">Maths</button>
+                <button class = "subject AppliedMaths">AppliedMaths</button>
+                <button class = "subject English" >English</button>
+                <button class = "subject Irish">Irish</button>
+                <button class = "subject French">French</button>
+                <button class = "subject Physics">Physics</button>
+                <button class = "subject Chemistry">Chemistry</button>
+                <button class = "subject Biology">Biology</button>
+                
+            </div>
+            <h3 class = "version">Version 1.0.6 (25-12-23)</h3>
+        </div>
+        
+
+        <!--Image container that is filled with image dynamically by javascript after a subject is chosen-->
+        <div class = "image-container background">
+            
+            <h2 class = "ImageText"></h2>
+            <img class = "image" src = "" loading = "lazy" alt = "Image">
+            <button class = "backward" onclick = Backward()>&larr;</button>
+            <button class = "forward" onclick = Forward()>&rarr;</button>
+        </div>
+        
+        <script>
+            document.querySelector('.menu-container').addEventListener('click', function (event) {
+                if (event.target.classList.contains('subject')) {
+                    currentsubject = event.target.textContent;
+                    HideSubjectDiv();
+                }
+            });
+            var div = document.querySelector('.menu-container');
+            var back = document.querySelector('.back');
+            var image = document.querySelector('.image');
+            var forwardbutton = document.querySelector('.forward');
+            var backwardbutton = document.querySelector('.backward');
+            var index = 1;
+            var currentsubject = '';
+            var imagefailtext = document.querySelector('.ImageText')
+
+            //hide first page, update to image page containing image, navigation buttons and a back arrow to go back to main page
+            function HideSubjectDiv() {
+                index = 1;
+                div.style.display = "none";
+                
+                back.style.display = "inline";
+                forwardbutton.style.display = "inline";
+                forwardbutton.style.animation = "slideInLeft 0.7s ease-out forwards";
+                image.style.display = "inline";
+                console.log(image.src);
+
+                image.src = 'images/' +currentsubject+'/'+index+'.webp';
+                image.addEventListener('error', handleImageError);
+                imagefailtext.innerHTML = '';
+            }
+            //when the navigate right button is pressed, has logic for drawing the arrow depending on if there is a next image or not
+            function Forward() {
+                backwardbutton.style.display = "inline";
+                index++;
+                image.src = 'images/' +currentsubject+'/'+index+'.webp';
+                imagefailtext.innerHTML = '';
+                image.addEventListener('error', handleImageError);
+                var nextimage = 'images/' +currentsubject+'/'+(index+1)+'.webp';
+                checkLocalFileExists(nextimage)
+                .then(exists => {
+                if (exists) {
+                    console.log('Local file exists!');
+                } else {
+                    console.log('Local file does not exist.'+nextimage);
+                    forwardbutton.style.display = 'none';
+                }
+            });
+
+
+
+            }
+
+            //When the navigate left button is pressed, with a check for if its at index 2 in order to not draw the button when on the first image
+            function Backward() {   
+                if (index == 2) {
+                    backwardbutton.style.display = 'none';
+                }
+                if(index > 1) {
+                    forwardbutton.style.display = 'inline';
+                    index--;
+                    image.src = 'images/' +currentsubject+'/'+index+'.webp';
+                    imagefailtext.innerHTML = '';
+                    image.addEventListener('error', handleImageError);
+                }
+            }
+            //Redisplay initial "front page"
+            function ShowSubjectDiv() {
+                div.style.display = "grid";
+                
+                back.style.display = "none";
+                forwardbutton.style.display = "none";
+                backwardbutton.style.display = "none";
+                
+                image.style.display = "none";
+                imagefailtext.innerHTML = '';
+            }
+            //Image failed load error
+            function handleImageError() {
+                console.log('Image failed to load. '+image.src);
+                imagefailtext.innerHTML = 'Image failed to load at '+image.src;
+                forwardbutton.style.display = "none";
+                
+            
+            }
+            function isMobileDevice() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            }
+            var subjectdiv = document.querySelector('.subject-container');
+            var maths = document.querySelector('.Maths');
+            var appliedmaths = document.querySelector('.AppliedMaths');
+            var english = document.querySelector('.English');
+            var irish = document.querySelector('.Irish');
+            var french = document.querySelector('.French');
+            var physics = document.querySelector('.Physics');
+            var chemistry= document.querySelector('.Chemistry');
+            var biology = document.querySelector('.Biology');
+            var heading = document.querySelector('.Heading');
+            var subjects = document.querySelectorAll('.subject');
+
+            //Check if user is on mobile device
+            let UserOnMobileDevice = false;
+            if (isMobileDevice()) {
+                UserOnMobileDevice = true;
+                subjectdiv.style.display = "flex";
+                console.log("MOBILE USER");
+                maths.style.animation = "slideInLeft .7s ease-out forwards 0.1s";
+                appliedmaths.style.animation = "slideInRight .7s ease-out forwards 0.2s";
+                english.style.animation = "slideInLeft .7s ease-out forwards 0.3s";
+                irish.style.animation = "slideInRight .7s ease-out forwards 0.4s";
+                french.style.animation = "slideInLeft .7s ease-out forwards 0.5s";
+                physics.style.animation = "slideInRight .7s ease-out forwards 0.6s";
+                chemistry.style.animation = "slideInLeft .7s ease-out forwards 0.7s";
+                biology.style.animation = "slideInRight .7s ease-out forwards 0.8s";
+                heading.style.fontSize = "5vh";
+                subjects.forEach(function(subject) {
+                   subject.style.width = "80vw";
+                   subject.style.height = "5vh";
+                   subject.style.fontSize = "3vh";
+                });
+                
+            } else {
+                UserOnMobileDevice = false;
+                subjectdiv.style.display = "grid";
+                console.log("COMPUTER USER");
+
+                /*maths.style.animation = "slideInLeft 1.1s ease-out forwards 0.65s;"
+                appliedmaths.style.animation = "slideInLeft 1.1s ease-out forwards 0.45s;"
+                english.style.animation = "slideInLeft 1.1s ease-out forwards 0.25s;"
+                irish.style.animation = "slideInLeft 1.1s ease-out forwards 0.8s;"
+                french.style.animation = "slideInLeft 1.1s ease-out forwards 0.8s;"
+                physics.style.animation = "slideInRight .7s ease-out forwards 0.6s;"
+                chemistry.style.animation = "slideInLeft .7s ease-out forwards 0.7s;"
+                biology.style.animation = "slideInRight .7s ease-out forwards 0.8s;"*/
+            }
+
+            //fetch request to check the headers of the next image from given file path to check whether to draw the next arrow or not
+            function checkLocalFileExists(filePath) {
+                return fetch(filePath, { method: 'HEAD' })
+                    .then(response => {
+            
+                        if (response.ok) {
+                            return true;
+                        } else {
+                            return false; 
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking local file existence:', error);
+                        return false;
+                    });
+            }
+            
+            
+        </script>
+    </body>
+    
+</html>
