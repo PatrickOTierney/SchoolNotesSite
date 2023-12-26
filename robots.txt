@@ -1,4 +1,0 @@
-#minecraft
-
-User-agent: *
-Disallow: /*.webp$

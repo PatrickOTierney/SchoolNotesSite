@@ -1,0 +1,1 @@
+### Github pages site used to display school notes dynamically
