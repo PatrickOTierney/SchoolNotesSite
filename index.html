@@ -18,6 +18,7 @@
                 /*min-height: 100vh;*/
                 background: radial-gradient(circle, #8b6e6e 0%, #ffffff 80%, #aabbcc 100%) center/contain;
                 height: 100vh;
+                overflow-y:hidden;
                 
             }
 
@@ -267,7 +268,7 @@
                 <button class = "subject Biology">Biology</button>
                 
             </div>
-            <h3 class = "version">Version 1.0.6 (25-12-23)</h3>
+            <h3 class = "version">Version 1.0.8 (7-1-24)</h3>
         </div>
         
 
@@ -379,7 +380,6 @@
             var biology = document.querySelector('.Biology');
             var heading = document.querySelector('.Heading');
             var subjects = document.querySelectorAll('.subject');
-
             //Check if user is on mobile device
             let UserOnMobileDevice = false;
             if (isMobileDevice()) {
@@ -395,6 +395,8 @@
                 chemistry.style.animation = "slideInLeft .7s ease-out forwards 0.7s";
                 biology.style.animation = "slideInRight .7s ease-out forwards 0.8s";
                 heading.style.fontSize = "5vh";
+                image.style.width = "100vw";
+                image.style.height = "auto";
                 subjects.forEach(function(subject) {
                    subject.style.width = "80vw";
                    subject.style.height = "5vh";
