@@ -162,6 +162,17 @@
                 font-size: 24px;
                 z-index: 1;
             }
+            .lastindex {
+                background-color: rgba(21, 0, 255, 0.766);
+                border-radius: 15px;
+                display:none;
+                position: absolute;
+                top: 90%;
+                right: 5%;
+                transform: translateY(-50%);
+                font-size: 24px;
+                z-index: 1;
+            }
             .button {
                 padding: 10px 20px;
                 font-size: 16px;
@@ -268,7 +279,7 @@
                 <button class = "subject Biology">Biology</button>
                 
             </div>
-            <h3 class = "version">Version 1.0.9 (11-1-24)</h3>
+            <h3 class = "version">Version 1.0.10 (27-1-24)</h3>
         </div>
         
 
@@ -279,6 +290,7 @@
             <img class = "image" src = "" loading = "lazy" alt = "Image">
             <button class = "backward" onclick = Backward()>&larr;</button>
             <button class = "forward" onclick = Forward()>&rarr;</button>
+            <button class = "lastindex" onclick = LastIndex()>&rarr;&rarr;</button>
         </div>
         
         <script>
@@ -293,6 +305,7 @@
             var image = document.querySelector('.image');
             var forwardbutton = document.querySelector('.forward');
             var backwardbutton = document.querySelector('.backward');
+            var skipbutton = document.querySelector('.lastindex');
             var index = 1;
             var currentsubject = '';
             var imagefailtext = document.querySelector('.ImageText')
@@ -304,7 +317,9 @@
                 
                 back.style.display = "inline";
                 forwardbutton.style.display = "inline";
+                skipbutton.style.display = "inline";
                 forwardbutton.style.animation = "slideInLeft 0.7s ease-out forwards";
+                skipbutton.style.animation = "slideInLeft 0.7s ease-out forwards"
                 image.style.display = "inline";
                 console.log(image.src);
 
@@ -327,12 +342,61 @@
                 } else {
                     console.log('Local file does not exist.'+nextimage);
                     forwardbutton.style.display = 'none';
+                    skipbutton.style.display = "none";
                 }
             });
+        }
 
-
-
+        function listWebpFilesInFolder(folderPath) {
+    return fetch(folderPath, { method: 'GET' })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Failed to fetch files in folder.');
             }
+        })
+        .then(htmlContent => {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = htmlContent;
+
+            // Get the list of files in the folder
+            var files = tempDiv.querySelectorAll('a[href]');
+
+            // Extract filenames from the links and filter only .webp files
+            var webpFiles = Array.from(files)
+                .map(file => file.textContent.trim())
+                .filter(fileName => fileName.endsWith('.webp'));
+
+            // Clean up temporary div
+            tempDiv = null;
+
+            return webpFiles;
+        })
+        .catch(error => {
+            console.error('Error listing .webp files in folder:', error);
+            return [];
+        });
+}
+
+            function LastIndex() {
+                let currentdirectory  = 'images/' +currentsubject+'/';
+                listWebpFilesInFolder(currentdirectory)
+                .then(fileCount => {
+                    console.log('Number of files in folder:', fileCount);
+                    index = fileCount.length;
+                    image.src = 'images/' +currentsubject+'/' + index+'.webp';
+                    forwardbutton.style.display = "none";
+                    skipbutton.style.display = "none";
+                    backwardbutton.style.display = "inline";
+                });
+                
+                
+            }
+
+
+
+            
 
             //When the navigate left button is pressed, with a check for if its at index 2 in order to not draw the button when on the first image
             function Backward() {   
@@ -341,6 +405,7 @@
                 }
                 if(index > 1) {
                     forwardbutton.style.display = 'inline';
+                    skipbutton.style.display = 'inline';
                     index--;
                     image.src = 'images/' +currentsubject+'/'+index+'.webp';
                     imagefailtext.innerHTML = '';
@@ -354,6 +419,7 @@
                 back.style.display = "none";
                 forwardbutton.style.display = "none";
                 backwardbutton.style.display = "none";
+                skipbutton.style.display = "none";
                 
                 image.style.display = "none";
                 imagefailtext.innerHTML = '';
